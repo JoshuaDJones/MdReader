@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:MdReader.Models"
+             x:Class="MdReader.MainPage"
+             x:Name="Page"
+             Title="Library">
+
+    <Grid Padding="24,20" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="16">
+        <VerticalStackLayout Spacing="5">
+            <Label Text="MdReader"
+                   FontSize="30"
+                   FontFamily="OpenSansSemibold"
+                   TextColor="{AppThemeBinding Light=#24332C, Dark=#E8ECE9}"
+                   SemanticProperties.HeadingLevel="Level1" />
+            <Label Text="Your offline Markdown library"
+                   FontSize="15"
+                   TextColor="{AppThemeBinding Light=#617068, Dark=#AAB6B0}" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1"
+                Padding="4,0"
+                Stroke="{AppThemeBinding Light=#D8D7D0, Dark=#3A4540}"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="{AppThemeBinding Light=#F5F3ED, Dark=#242A27}">
+            <SearchBar x:Name="DocumentSearchBar"
+                       Placeholder="Search documents"
+                       TextChanged="OnSearchTextChanged"
+                       SearchButtonPressed="OnSearchButtonPressed" />
+        </Border>
+
+        <Grid Grid.Row="2">
+            <CollectionView x:Name="DocumentList"
+                            SelectionMode="Single"
+                            SelectionChanged="OnDocumentSelected">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="24" Spacing="8" VerticalOptions="Center">
+                        <Label Text="No documents found"
+                               HorizontalTextAlignment="Center"
+                               FontSize="20"
+                               FontFamily="OpenSansSemibold" />
+                        <Label Text="Drop a .md file into the Documents folder, then rebuild the app."
+                               HorizontalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light=#617068, Dark=#AAB6B0}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:DocumentInfo">
+                        <Border Margin="0,0,0,12"
+                                Padding="18,16"
+                                Stroke="{AppThemeBinding Light=#D8D7D0, Dark=#3A4540}"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="{AppThemeBinding Light=#FBFAF7, Dark=#242A27}">
+                            <Grid RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+                                <Label Text="{Binding Category}"
+                                       FontSize="11"
+                                       CharacterSpacing="1.1"
+                                       TextTransform="Uppercase"
+                                       TextColor="{AppThemeBinding Light=#477863, Dark=#9AC8B1}" />
+                                <Label Grid.Row="1"
+                                       Text="{Binding Title}"
+                                       FontSize="19"
+                                       FontFamily="OpenSansSemibold"
+                                       TextColor="{AppThemeBinding Light=#24332C, Dark=#E8ECE9}"
+                                       SemanticProperties.HeadingLevel="Level2" />
+                                <Label Grid.Row="2"
+                                       Text="{Binding Description}"
+                                       FontSize="14"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       TextColor="{AppThemeBinding Light=#617068, Dark=#AAB6B0}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                               IsRunning="True"
+                               IsVisible="True"
+                               Color="#477863"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center" />
+
+            <Border x:Name="ErrorPanel"
+                    IsVisible="False"
+                    Padding="20"
+                    Stroke="#B04A3A"
+                    StrokeShape="RoundRectangle 12"
+                    BackgroundColor="{AppThemeBinding Light=#FFF1EE, Dark=#3B2421}"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="The library could not be loaded"
+                           FontFamily="OpenSansSemibold"
+                           FontSize="18" />
+                    <Label x:Name="ErrorMessageLabel" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Label Grid.Row="3"
+               Text="Documents are bundled with the app and available offline."
+               HorizontalTextAlignment="Center"
+               FontSize="12"
+               TextColor="{AppThemeBinding Light=#75827B, Dark=#8F9C95}" />
+    </Grid>
+</ContentPage>

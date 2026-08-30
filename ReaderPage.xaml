@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MdReader.ReaderPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="A−" Clicked="OnDecreaseTextSize" Order="Primary" />
+        <ToolbarItem Text="A+" Clicked="OnIncreaseTextSize" Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <Grid>
+        <WebView x:Name="MarkdownWebView"
+                 Navigating="OnWebViewNavigating" />
+
+        <ActivityIndicator x:Name="LoadingIndicator"
+                           IsRunning="True"
+                           IsVisible="True"
+                           Color="#477863"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+
+        <Border x:Name="ErrorPanel"
+                IsVisible="False"
+                Margin="24"
+                Padding="20"
+                Stroke="#B04A3A"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="{AppThemeBinding Light=#FFF1EE, Dark=#3B2421}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="This document could not be opened"
+                       FontFamily="OpenSansSemibold"
+                       FontSize="18" />
+                <Label x:Name="ErrorMessageLabel" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>
